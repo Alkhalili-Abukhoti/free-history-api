@@ -8,7 +8,7 @@
     "start": "node server.js"
   },
   "author": "Khalid F Alkhalili",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
