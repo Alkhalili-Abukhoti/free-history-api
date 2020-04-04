@@ -1,38 +1,30 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
+require('dotenv').config();
+require('rootpath')();
 
-var db = mongoose.connect('mongodb://localhost/free-history', {
-    useNewUrlParser: true, useUnifiedTopology: true
-});
+const express = require('express');
+const app = express();
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const jwt = require('helpers/jwt');
+const errorHandler = require('helpers/error-handler');
 
-var Event = require('./model/Event');
-var User = require('./model/User');
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(cors());
+
+// use JWT auth to secure the api
+app.use(jwt());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.get("/", (req, res, next) => {
-    res.json("You're on slash!");
-});
+// api routes
+app.use('/users', require('./users/users.controller'));
 
-app.get('/users', (req, res) => {
-    return res.send('GET HTTP method on user resource');
-});
+// global error handler
+app.use(errorHandler);
 
-app.post('/users', (req, res) => {
-    return res.send('POST HTTP method on user resource');
+// start server
+app.listen(process.env.PORT, function() {
+    console.log(`Free History API running on port ${process.env.PORT}....`)
 });
- 
-app.put('/users/:userId', (req, res) => {
-    return res.send(`PUT HTTP method on user/${req.params.userId} resource`);
-});
-  
-app.delete('/users/:userId', (req, res) => {
-    return res.send(`DELETE HTTP method on user/${req.params.userId} resource`);
-});
-
-app.listen(3000, function() {
-    console.log("Free History API running on port 3000....")
-})
