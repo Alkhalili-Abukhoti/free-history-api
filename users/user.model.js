@@ -7,8 +7,8 @@ const schema = new Schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     createdDate: { type: Date, default: Date.now },
-    emails: [{ type: String, unique: true, required: true }],
-    trustIdx: { type: Number, default: 0 }
+    email: { type: String, unique: true, required: true },
+    trustIdx: { type: Number, default: 1 }
 });
 
 schema.set('toJSON', { virtuals: true });
