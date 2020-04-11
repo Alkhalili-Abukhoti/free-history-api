@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const eventService = require('./event.service');
+const eventService = require('../services/event');
 
 // routes
 router.post('/create', create);
@@ -12,32 +12,39 @@ router.delete('/:id', _delete);
 module.exports = router;
 
 function create(req, res, next) {
-    console.log(req);
-    eventService.create(req.user.sub, req.body)
+    var userId = req.user.subs
+    eventService.create(userId, req.body)
         .then(() => res.json({}))
         .catch(err => next(err));
 }
 
 function getAll(req, res, next) {
-    eventService.getAll()
+    var userId = req.user.sub;
+    eventService.getAll(userId)
         .then(users => res.json(users))
         .catch(err => next(err));
 }
 
 function getById(req, res, next) {
-    eventService.getById(req.params.id)
+    var userId = req.user.sub;
+    var eventId = req.params.id;
+    eventService.getById(userId, eventId)
         .then(user => user ? res.json(user) : res.sendStatus(404))
         .catch(err => next(err));
 }
 
 function update(req, res, next) {
-    eventService.update(req.params.id, req.body)
+    var userId = req.user.sub;
+    var eventId = req.params.id;
+    eventService.update(userId, eventId, req.body)
         .then(() => res.json({}))
         .catch(err => next(err));
 }
 
 function _delete(req, res, next) {
-    eventService.delete(req.params.id)
+    var userId = req.user.sub;
+    var eventId = req.params.id;
+    eventService.delete(userId, eventId)
         .then(() => res.json({}))
         .catch(err => next(err));
 }

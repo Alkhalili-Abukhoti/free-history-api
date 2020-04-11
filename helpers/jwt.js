@@ -1,6 +1,6 @@
 require('dotenv').config();
 const expressJwt = require('express-jwt');
-const userService = require('../users/user.service');
+const userService = require('../services/user');
 
 module.exports = jwt;
 

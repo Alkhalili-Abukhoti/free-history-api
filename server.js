@@ -19,7 +19,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 // api routes
-app.use('/users', require('./users/users.controller'));
+app.use('/users', require('controllers/users'));
+app.use('/events', require('controllers/events'));
 
 // global error handler
 app.use(errorHandler);

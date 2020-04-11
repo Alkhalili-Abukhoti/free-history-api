@@ -1,8 +1,9 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-//const mongoose = require('mongoose');
-const db = require('helpers/db');
+const mongoose = require('mongoose');
+
+const db = require('../helpers/db');
 const Event = db.Event;
 
 module.exports = {
@@ -13,20 +14,17 @@ module.exports = {
     delete: _delete
 };
 
-async function create(id, eventParam) {
+async function create(userId, eventParam) {
     // validate
     if (await Event.findOne({ title: eventParam.title })) {
         throw 'Title: "' + eventParam.title + '" was already used';
     }
 
-    console.log(id);
-    
-    /*var id = mongoose.Types.ObjectId(id);
-    console.log(id);
-    eventParam.creator = id;
+    // add creator id reference to User
+    eventParam.creator = mongoose.Types.ObjectId(userId);
     const event = new Event(eventParam);
     // save event
-    await event.save();*/
+    await event.save();
 }
 
 async function getAll() {

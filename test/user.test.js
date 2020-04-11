@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 var supertest = require('supertest');
-var should = require('should');
 var server = supertest.agent("http://localhost:9000");
 var assert = require("assert");
 
@@ -43,7 +42,7 @@ describe("User creation and authentication", () => {
         .expect(200)
         .end((err, res) => {
             token = res.body.token;
-            assert.equal(token.length, 149);
+            assert(token.length, 149);
             done();
         });
     });
