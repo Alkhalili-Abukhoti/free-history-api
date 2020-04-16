@@ -6,17 +6,6 @@ const userService = require('src/services/user');
 
 module.exports = jwt;
 
-function jwt() {
-    const secret = process.env.SECRET;
-    return expressJwt({ secret, isRevoked }).unless({
-        path: [
-            // public routes that don't require authentication
-            '/users/authenticate',
-            '/users/register'
-        ]
-    })
-}
-
 async function isRevoked(req, payload, done) {
     const user = await userService.getById(payload.sub);
 
@@ -26,4 +15,15 @@ async function isRevoked(req, payload, done) {
     }
 
     done()
+}
+
+function jwt() {
+    const secret = process.env.SECRET;
+    return expressJwt({ secret, isRevoked }).unless({
+        path: [
+            // public routes that don't require authentication
+            '/users/authenticate',
+            '/users/register'
+        ]
+    })
 }

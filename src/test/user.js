@@ -24,7 +24,7 @@ describe("USERS:", () => {
             .end((err, res) => {
                 try { 
                     token = res.body.token;
-                    assert(token.length, 149);
+                    assert(token.length === 149);
                     done()
                  } catch (error) {throw error}
             })
@@ -57,7 +57,7 @@ describe("USERS:", () => {
         .set('Authorization', 'Bearer ' + token)
         .expect(200)
         .send({ email: "potato@domain.com"})
-        .end((err, res) => {
+        .end(() => {
             try { done() }
             catch (error) {throw error}
         })

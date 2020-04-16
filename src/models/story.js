@@ -15,10 +15,10 @@ const schema = new Schema({
 });
 
 schema.methods.initializeTruth = function initializeTruth() {
-    const truth = 0;
+    let truth = 0;
     const stories = this.model('Story').find({ stories: this.stories });
     for (const story in stories) {
-        truth + story.truthIdx 
+        truth += story.truthIdx
     }
     return truth
 };

@@ -43,7 +43,7 @@ describe("BOOTSTRAP:", () => {
     require("src/test/user");
     require("src/test/story");
 
-    /*after((done) => {
+    after((done) => {
         server.delete("/users/" + id)
           .set('Authorization', 'Bearer ' + token)
           .expect(200)
@@ -51,6 +51,6 @@ describe("BOOTSTRAP:", () => {
               try { done() }
               catch (error) {throw error}
           });
-      });*/
+      });
 
 });

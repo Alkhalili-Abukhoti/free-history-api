@@ -1,6 +1,6 @@
 /**
  * 
- * @param {maximum number to consider when randomizing} max 
+ * @param {Number} max
  */
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max))
