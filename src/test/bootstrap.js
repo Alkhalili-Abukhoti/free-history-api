@@ -1,16 +1,17 @@
 require('rootpath')();
 
-var supertest = require('supertest');
-var server = supertest.agent("http://localhost:9000");
-var assert = require("assert")
+const supertest = require('supertest');
+const server = supertest.agent("http://localhost:9000");
+const assert = require("assert");
+const {describe, it, before, after} = require("mocha");
 
-var { testCred, testUser, testStory } = require('src/test/helper')
+const { testCred, testUser } = require('src/test/helper');
 
 ///// UNIT TEST BEGIN /////
 
 // unknown until authentication
-var token = "" 
-var id = ""
+let token;
+let id;
 
 describe("BOOTSTRAP:", () => {
     before((done) => {
@@ -18,13 +19,11 @@ describe("BOOTSTRAP:", () => {
             .send(testUser)
             .expect("Content-type", /json/)
             .expect(200) // This is the HTTP response
-            .end((err, res) => {
-                try { 
-                    done() 
-                }
+            .end(() => {
+                try { done() }
                 catch (error) {throw error}
             })
-    })
+    });
 
     it("should be possible to authenticate the newly created user", (done) => {
         server.post("/users/authenticate")
@@ -33,25 +32,25 @@ describe("BOOTSTRAP:", () => {
             .expect(201)
             .end((err, res) => {
                 try { 
-                    token = res.body.token
-                    id = res.body._id
-                    assert(token.length, 149)
+                    token = res.body.token;
+                    id = res.body._id;
+                    assert(token.length === 149);
                     done()
                  } catch (error) {throw error}
             })
-    })
+    });
 
-    require("src/test/user")
-    require("src/test/story")
+    require("src/test/user");
+    require("src/test/story");
 
-    after((done) => {
+    /*after((done) => {
         server.delete("/users/" + id)
           .set('Authorization', 'Bearer ' + token)
           .expect(200)
-          .end((err, res) => {
+          .end(() => {
               try { done() }
               catch (error) {throw error}
-          })
-      })
+          });
+      });*/
 
-})
+});

@@ -1,10 +1,10 @@
-require('rootpath')()
+require('rootpath')();
 
-require('dotenv').config()
-const expressJwt = require('express-jwt')
-const userService = require('src/services/user')
+require('dotenv').config();
+const expressJwt = require('express-jwt');
+const userService = require('src/services/user');
 
-module.exports = jwt
+module.exports = jwt;
 
 function jwt() {
     const secret = process.env.SECRET;

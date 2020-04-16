@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
-var ObjectId = mongoose.Schema.Types.ObjectId
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const schema = new Schema({
     title: { type: String, unique: true, required: true },
@@ -12,17 +12,17 @@ const schema = new Schema({
     geolocation: { type: String, unique: false, required: true },
     truthIdx: { type: Number, default: 0 },
     audience: { type: String, default: "private"}
-})
+});
 
 schema.methods.initializeTruth = function initializeTruth() {
-    var truth = 0;
-    var stories = this.model('Story').find({ stories: this.stories });
-    for (var story in stories) {
+    const truth = 0;
+    const stories = this.model('Story').find({ stories: this.stories });
+    for (const story in stories) {
         truth + story.truthIdx 
     }
     return truth
-}
+};
 
-schema.set('toJSON', { virtuals: true })
+schema.set('toJSON', { virtuals: true });
 
-module.exports = mongoose.model('Story', schema)
+module.exports = mongoose.model('Story', schema);

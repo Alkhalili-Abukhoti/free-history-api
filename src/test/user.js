@@ -1,17 +1,18 @@
-require('rootpath')()
-require('dotenv').config()
+require('rootpath')();
+require('dotenv').config();
 
-const supertest = require('supertest')
-const server = supertest.agent("http://localhost:9000")
-var assert = require("assert")
+const supertest = require('supertest');
+const server = supertest.agent("http://localhost:9000");
+const assert = require("assert");
+const {describe, it} = require("mocha");
 
-var { testCred, testUser } = require('src/test/helper')
+const { testCred } = require('src/test/helper');
 
 ///// UNIT TEST BEGIN /////
 
 // unknown until authentication
-var token = "" 
-var id = ""
+let token;
+let id;
 
 describe("USERS:", () => {
 
@@ -23,25 +24,23 @@ describe("USERS:", () => {
             .end((err, res) => {
                 try { 
                     token = res.body.token;
-                    assert(token.length, 149)
+                    assert(token.length, 149);
                     done()
                  } catch (error) {throw error}
             })
-    })
+    });
 
-    var id = "" // unknown until current user becomes known
     it("should be possible to get all users", (done) => {
         server.get("/users/")
             .set('Authorization', 'Bearer ' + token)
             .expect(200)
             .end((err, res) => {
                 try {
-                    //console.log(res)    
-                    assert(res.body.length, 1)
+                    assert(res.body.length >= 1);
                     done()
                 } catch (error) {throw error}
             })
-    })
+    });
 
     it("should be possible to get current user info", (done) => {
         server.get("/users/current")
@@ -50,8 +49,8 @@ describe("USERS:", () => {
             .end((err, res) => {
                 id = res.body._id;
                 done()
-            })
-    })
+            });
+    });
 
     it("should be possible to modify existing users", (done) => {
         server.put("/users/" + id)
@@ -62,7 +61,7 @@ describe("USERS:", () => {
             try { done() }
             catch (error) {throw error}
         })
-    })
+    });
 
     it("should be possible to get user by id", (done) => {
         server.get("/users/" + id)
@@ -70,10 +69,10 @@ describe("USERS:", () => {
             .expect(200)
             .end((err, res) => {
                 try {
-                    assert(res.body.email, "potato@domain.com")
+                    assert(res.body.email, "potato@domain.com");
                     done()
                 } catch (error) { throw error }
             })
     })
 
-})
+});

@@ -1,7 +1,7 @@
-require('rootpath')()
-const express = require('express')
-const router = express.Router()
-const userService = require('src/services/user')
+require('rootpath')();
+const express = require('express');
+const router = express.Router();
+const userService = require('src/services/user');
 
 function authenticate(req, res, next) {
     userService.authenticate(req.body)
@@ -49,12 +49,12 @@ function _delete(req, res, next) {
 }
 
 // routes
-router.post('/authenticate', authenticate)
-router.post('/register', register)
-router.get('/', getAll)
-router.get('/current', getCurrent)
-router.get('/:id', getById)
-router.put('/:id', update)
-router.delete('/:id', _delete)
+router.post('/authenticate', authenticate);
+router.post('/register', register);
+router.get('/', getAll);
+router.get('/current', getCurrent);
+router.get('/:id', getById);
+router.put('/:id', update);
+router.delete('/:id', _delete);
 
-module.exports = router
+module.exports = router;
