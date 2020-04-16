@@ -18,11 +18,7 @@ describe("BOOTSTRAP:", () => {
         server.post("/users/register")
             .send(testUser)
             .expect("Content-type", /json/)
-            .expect(200) // This is the HTTP response
-            .end(() => {
-                try { done() }
-                catch (error) {throw error}
-            })
+            .expect(200, done) // This is the HTTP response
     });
 
     it("should be possible to authenticate the newly created user", (done) => {
@@ -46,11 +42,7 @@ describe("BOOTSTRAP:", () => {
     after((done) => {
         server.delete("/users/" + id)
           .set('Authorization', 'Bearer ' + token)
-          .expect(200)
-          .end(() => {
-              try { done() }
-              catch (error) {throw error}
-          });
+          .expect(200, done);
       });
 
 });

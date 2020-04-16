@@ -34,11 +34,7 @@ describe("STORIES:", () => {
         .set('Authorization', 'Bearer ' + token)
         .send(testStory)
         .expect("Content-type", /json/)
-        .expect(200) // This is the HTTP response
-        .end(() => {
-            try { done() }
-            catch (error) {throw error}
-        });
+        .expect(200, done);
     });
 
     it("should be possible to get all stories by user", (done) => {
