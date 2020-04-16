@@ -22,17 +22,17 @@ describe("USERS:", () => {
             .expect("Content-type", /json/)
             .expect(201)
             .end((err, res) => {
-                try { 
+                try {
                     token = res.body.token;
                     assert(token.length === 149);
                     done()
-                 } catch (error) {throw error}
+                } catch (error) {throw error}
             })
     });
 
     it("should be possible to get all users", (done) => {
         server.get("/users/")
-            .set('Authorization', 'Bearer ' + token)
+            .set("Authorization", "Bearer " + token)
             .expect(200)
             .end((err, res) => {
                 try {
@@ -44,7 +44,7 @@ describe("USERS:", () => {
 
     it("should be possible to get current user info", (done) => {
         server.get("/users/current")
-            .set('Authorization', 'Bearer ' + token)
+            .set("Authorization", "Bearer " + token)
             .expect(200)
             .end((err, res) => {
                 id = res.body._id;
@@ -54,18 +54,18 @@ describe("USERS:", () => {
 
     it("should be possible to modify existing users", (done) => {
         server.put("/users/" + id)
-        .set('Authorization', 'Bearer ' + token)
-        .expect(200)
-        .send({ email: "potato@domain.com"})
-        .end(() => {
-            try { done() }
-            catch (error) {throw error}
-        })
+            .set("Authorization", "Bearer " + token)
+            .expect(200)
+            .send({ email: "potato@domain.com"})
+            .end(() => {
+                try { done() }
+                catch (error) {throw error}
+            })
     });
 
     it("should be possible to get user by id", (done) => {
         server.get("/users/" + id)
-            .set('Authorization', 'Bearer ' + token)
+            .set("Authorization", "Bearer " + token)
             .expect(200)
             .end((err, res) => {
                 try {

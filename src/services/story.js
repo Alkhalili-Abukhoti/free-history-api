@@ -52,7 +52,7 @@ async function update(userId, storyId, storyParams) {
     // validate
     if (!story)
         throw 'Story not found';
-    else if (story.author !== userId)
+    else if (String(story.author) !== String(userId))
         throw 'Forbidden: permission belongs only to story creator';
     else
         // copy userParam properties to user

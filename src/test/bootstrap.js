@@ -27,12 +27,12 @@ describe("BOOTSTRAP:", () => {
             .expect("Content-type", /json/)
             .expect(201)
             .end((err, res) => {
-                try { 
+                try {
                     token = res.body.token;
                     id = res.body._id;
                     assert(token.length === 149);
                     done()
-                 } catch (error) {throw error}
+                } catch (error) {throw error}
             })
     });
 
@@ -41,8 +41,8 @@ describe("BOOTSTRAP:", () => {
 
     after((done) => {
         server.delete("/users/" + id)
-          .set('Authorization', 'Bearer ' + token)
-          .expect(200, done);
-      });
+            .set("Authorization", "Bearer " + token)
+            .expect(200, done);
+    });
 
 });
