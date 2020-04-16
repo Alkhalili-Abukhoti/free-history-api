@@ -1,0 +1,64 @@
+### This file tests the user api
+### It requires the vs code extension REST Client
+### https://github.com/Huachao/vscode-restclient
+### https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+@hostname = localhost
+@port = 9000
+@host = {{hostname}}:{{port}}
+@baseUrl = http://{{host}}/users
+
+### register user
+POST {{baseUrl}}/register
+Content-Type: application/json
+
+{
+	"username": "jdoe2131",
+	"password": "123456",
+	"lastName": "Doe",
+	"firstName": "Jane",
+	"email": "jdoe2131@hotmail.com"
+}
+
+### authenticate user
+# @name authenticate
+POST {{baseUrl}}/authenticate
+Content-Type: application/json
+
+{
+	"username": "jdoe2131",
+	"password": "123456"
+}
+
+### get info about current user
+
+## get token from authenticate
+@authToken = {{authenticate.response.body.token}}
+
+## get current user info (token required)
+GET {{baseUrl}}/current
+Authorization: bearer {{authToken}}
+
+### get all users (token required)
+GET {{baseUrl}}/
+Authorization: bearer {{authToken}}
+
+## get id from authenticate
+@id = {{authenticate.response.body._id}}
+
+### get user by id (token and id required)
+GET {{baseUrl}}/{{id}}
+Authorization: bearer {{authToken}}
+
+### modify user (token and id required)
+PUT {{baseUrl}}/{{id}}
+Content-Type: application/json
+Authorization: bearer {{authToken}}
+
+{
+    "email": "kfkhalili@hotmail.com"
+}
+
+### delete user
+DELETE {{baseUrl}}/{{id}}
+Content-Type: application/json
+Authorization: bearer {{authToken}}
