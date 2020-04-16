@@ -20,7 +20,15 @@ const testUser = {
     "email": username + "@domain.com"
 }
 
+const testStory = {
+    "title": "story 5",
+    "description": "it happened!",
+    "tags": ["test_tag"],
+    "geolocation": "123.123, -456.789"
+}
+
 module.exports = {
     testCred,
-    testUser
+    testUser,
+    testStory
 }

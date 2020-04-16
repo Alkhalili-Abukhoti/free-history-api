@@ -1,11 +1,9 @@
-require('rootpath')();
-require('dotenv').config();
+require('rootpath')()
+require('dotenv').config()
 
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const mongoose = require('mongoose');
-const db = require('src/helpers/db');
-const Story = db.Story;
+const mongoose = require('mongoose')
+const db = require('src/helpers/db')
+const Story = db.Story
 
 module.exports = {
     create,
@@ -13,32 +11,39 @@ module.exports = {
     getById,
     update,
     delete: _delete
-};
+}
 
 async function create(userId, storyParams) {
     // validate
     if (await Story.findOne({ title: storyParams.title })) {
-        throw 'Title: "' + storyParams.title + '" was already used';
+        throw 'Title: "' + storyParams.title + '" was already used'
     }
-
-    // add creator id reference to User
-    storyParams.creator = mongoose.Types.ObjectId(userId);
-    const story = new Story(storyParams);
-    // save story
-    await story.save();
+    else {
+        try {
+            // add author id reference to User
+            storyParams.author = mongoose.Types.ObjectId(userId)
+            const story = new Story(storyParams)
+            // save story
+            await story.save()
+        } catch (error) {
+            throw error
+        }
+    }
 }
 
 async function getAll(userId) {
-    let query = {};
-    if (userId){
-        query = { "creator": ObjectId(userId) }
+    //console.log("userId: " + userId)
+    try {
+        let query = { author: mongoose.Types.ObjectId(userId) }
+        var story = await Story.find(query).select()
+        return story
+    } catch (error) {
+        throw error
     }
-
-    return await Story.find(query).select('-hash');
 }
 
 async function getById(id) {
-    return await Story.findById(id).select('-hash');
+    return await Story.findById(id);
 }
 
 async function update(id, storyParams) {
@@ -53,6 +58,12 @@ async function update(id, storyParams) {
     await story.save();
 }
 
-async function _delete(id) {
-    await Story.findByIdAndRemove(id);
+async function _delete(userId, storyId) {
+    const story = await Story.findById(storyId)
+    // validate
+    if (!story) throw 'Story not found'
+    else if (story.author != userId) throw 'Forbidden: permission belongs only to story creator'
+    else {
+        await Story.findByIdAndRemove(storyId)
+    }
 }
