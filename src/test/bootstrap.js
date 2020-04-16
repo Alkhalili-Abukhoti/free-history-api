@@ -44,7 +44,6 @@ describe("BOOTSTRAP:", () => {
     require("src/test/user")
     require("src/test/story")
 
-
     after((done) => {
         server.delete("/users/" + id)
           .set('Authorization', 'Bearer ' + token)
