@@ -32,7 +32,6 @@ async function create(userId, storyParams) {
 }
 
 async function getAll(userId) {
-    //console.log("userId: " + userId)
     try {
         let query = { author: mongoose.Types.ObjectId(userId) }
         var story = await Story.find(query).select()
@@ -42,20 +41,22 @@ async function getAll(userId) {
     }
 }
 
-async function getById(id) {
-    return await Story.findById(id);
+async function getById(userId, storyId) {
+    const story = await Story.findById(storyId)
+    if (story.author != userId) throw 'Forbidden: permission belongs only to story creator'
+    else return story
 }
 
-async function update(id, storyParams) {
-    const story = await Story.findById(id);
-
+async function update(userId, storyId, storyParams) {
+    const story = await Story.findById(storyId);
     // validate
-    if (!story) throw 'Story not found';
-
-    // copy userParam properties to user
-    Object.assign(story, storyParams);
-
-    await story.save();
+    if (!story) throw 'Story not found'
+    else if (story.author != userId) throw 'Forbidden: permission belongs only to story creator'
+    else {
+        // copy userParam properties to user
+        Object.assign(story, storyParams)
+        await story.save()
+    }
 }
 
 async function _delete(userId, storyId) {

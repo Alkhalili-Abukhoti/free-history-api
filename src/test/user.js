@@ -14,16 +14,6 @@ var token = ""
 var id = ""
 
 describe("USERS:", () => {
-    /*before((done) => {
-        server.post("/users/register")
-            .send(testUser)
-            .expect("Content-type", /json/)
-            .expect(200) // This is the HTTP response
-            .end((err, res) => {
-                try { done() }
-                catch (error) {throw error}
-            })
-    })*/
 
     it("should be possible to authenticate the newly created user", (done) => {
         server.post("/users/authenticate")
@@ -85,15 +75,5 @@ describe("USERS:", () => {
                 } catch (error) { throw error }
             })
     })
-
-    /*after((done) => {
-        server.delete("/users/" + id)
-          .set('Authorization', 'Bearer ' + token)
-          .expect(200)
-          .end((err, res) => {
-              try { done() }
-              catch (error) {throw error}
-          })
-      })*/
 
 })

@@ -20,16 +20,16 @@ function getAll(req, res, next) {
 
 function getById(req, res, next) {
     var userId = req.user.sub
-    var eventId = req.params.id
-    storyService.getById(userId, eventId)
+    var storyId = req.params.id
+    storyService.getById(userId, storyId)
         .then(user => user ? res.json(user) : res.sendStatus(404))
         .catch(err => next(err))
 }
 
 function update(req, res, next) {
     var userId = req.user.sub;
-    var eventId = req.params.id
-    storyService.update(userId, eventId, req.body)
+    var storyId = req.params.id
+    storyService.update(userId, storyId, req.body)
         .then(() => res.json({}))
         .catch(err => next(err))
 }
