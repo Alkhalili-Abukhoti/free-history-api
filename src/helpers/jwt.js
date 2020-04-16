@@ -1,8 +1,10 @@
-require('dotenv').config();
-const expressJwt = require('express-jwt');
-const userService = require('../services/user');
+require('rootpath')()
 
-module.exports = jwt;
+require('dotenv').config()
+const expressJwt = require('express-jwt')
+const userService = require('src/services/user')
+
+module.exports = jwt
 
 function jwt() {
     const secret = process.env.SECRET;
@@ -12,7 +14,7 @@ function jwt() {
             '/users/authenticate',
             '/users/register'
         ]
-    });
+    })
 }
 
 async function isRevoked(req, payload, done) {
@@ -23,5 +25,5 @@ async function isRevoked(req, payload, done) {
         return done(null, true);
     }
 
-    done();
-};
+    done()
+}

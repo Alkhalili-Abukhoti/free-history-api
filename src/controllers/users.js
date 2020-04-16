@@ -1,21 +1,14 @@
+require('rootpath')();
 const express = require('express');
 const router = express.Router();
-const userService = require('../services/user');
-
-// routes
-router.post('/authenticate', authenticate);
-router.post('/register', register);
-router.get('/', getAll);
-router.get('/current', getCurrent);
-router.get('/:id', getById);
-router.put('/:id', update);
-router.delete('/:id', _delete);
-
-module.exports = router;
+const userService = require('src/services/user');
 
 function authenticate(req, res, next) {
     userService.authenticate(req.body)
-        .then(user => user ? res.json(user) : res.status(400).json({ message: 'Username or password is incorrect' }))
+        .then(user => 
+            user ? res.json(user) : res.status(400).json({ 
+                message: 'Username or password is incorrect' 
+            }))
         .catch(err => next(err));
 }
 
@@ -54,3 +47,14 @@ function _delete(req, res, next) {
         .then(() => res.json({}))
         .catch(err => next(err));
 }
+
+// routes
+router.post('/authenticate', authenticate);
+router.post('/register', register);
+router.get('/', getAll);
+router.get('/current', getCurrent);
+router.get('/:id', getById);
+router.put('/:id', update);
+router.delete('/:id', _delete);
+
+module.exports = router;
